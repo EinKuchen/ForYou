@@ -9,16 +9,16 @@ import java.awt.*;
 public class UI {
     public static final UI INSTANCE = new UI();
 
-    private JFrame frame = new JFrame("ForYou");
+    private final JFrame frame = new JFrame("ForYou");
 
     public UI() {
         try {
-            frame.setIconImage(Resources.INSTANCE.getDefaultIcon());
+            frame.setIconImage(Resources.getDefaultIcon());
             frame.setSize(500, 125);
             frame.setResizable(false);
             frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-            frame.setContentPane(new JLabel(new ImageIcon(Resources.INSTANCE.getDefaultBackground())));
+            frame.setContentPane(new JLabel(new ImageIcon(Resources.getDefaultBackground())));
             frame.setLayout(new GridBagLayout());
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -36,5 +36,9 @@ public class UI {
 
     public void hideUI() {
         frame.setVisible(false);
+    }
+
+    public boolean isHidden() {
+        return !frame.isVisible();
     }
 }

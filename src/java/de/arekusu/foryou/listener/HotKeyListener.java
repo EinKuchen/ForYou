@@ -1,5 +1,6 @@
 package de.arekusu.foryou.listener;
 
+import de.arekusu.foryou.console.Console;
 import de.arekusu.foryou.managers.HotKey;
 import de.arekusu.foryou.managers.Media;
 import org.jnativehook.GlobalScreen;
@@ -11,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HotKeyListener implements NativeKeyListener {
+
+    private static int lastKeyCodePressed;
 
     public static void initialize() {
         try {
@@ -27,6 +30,8 @@ public class HotKeyListener implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
+        if(Console.INSTANCE.isConsoleMode()) lastKeyCodePressed = nativeKeyEvent.getKeyCode();
+
         if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {
             Media.previous();
             return;
@@ -44,5 +49,9 @@ public class HotKeyListener implements NativeKeyListener {
     @Override
     public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
 
+    }
+
+    public static int getLastKeyCodePressed() {
+        return lastKeyCodePressed;
     }
 }
