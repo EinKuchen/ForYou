@@ -6,13 +6,14 @@ import de.arekusu.foryou.ui.SystemTray;
 import de.arekusu.foryou.ui.UI;
 
 public class Main {
+
     public static void main(String[] args) {
-        if(!args[0].equals("-settings")) {
-            HotKeyListener.initialize();
+        HotKeyListener.initialize();
+        if(args.length == 0) {
             SystemTray.INSTANCE.createTray();
             UI.INSTANCE.showUI();
         }else
-            Console.INSTANCE.initialize();
+            new Console();
 
     }
 }

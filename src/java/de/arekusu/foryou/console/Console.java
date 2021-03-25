@@ -7,13 +7,11 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Console {
-    public static final Console INSTANCE = new Console();
-
     private final HashMap<String, CommandExecutor> commands = new HashMap<>();
-    private boolean consoleMode;
+    private static boolean consoleMode;
 
 
-    public void initialize() {
+    public Console() {
         Scanner input = new Scanner(System.in);
         consoleMode = true;
 
@@ -25,8 +23,9 @@ public class Console {
 
         System.out.println(">> Type <Help> for more information!");
 
-        registerCommand("help", new Help());
-        registerCommand("setHotKey", new SetHotKey());
+        registerCommand("Help", new Help());
+        registerCommand("SetHotKey", new SetHotKey());
+        registerCommand("Exit", args -> System.exit(0));
 
         while(true) {
             String inputString = input.nextLine().toLowerCase();
@@ -46,7 +45,7 @@ public class Console {
         commands.put(name.toLowerCase(), command);
     }
 
-    public boolean isConsoleMode() {
+    public static boolean isConsoleMode() {
         return consoleMode;
     }
 }

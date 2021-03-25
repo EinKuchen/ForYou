@@ -12,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HotKeyListener implements NativeKeyListener {
+    private static int lastKeyPressed;
 
-    private static int lastKeyCodePressed;
 
     public static void initialize() {
         try {
@@ -30,19 +30,21 @@ public class HotKeyListener implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-        if(Console.INSTANCE.isConsoleMode()) lastKeyCodePressed = nativeKeyEvent.getKeyCode();
-
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {
-            Media.previous();
-            return;
-        }
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPauseKey()) {
-            Media.pause();
-            return;
-        }
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getSkipKey()) {
-            Media.skip();
-            return;
+        if(Console.isConsoleMode()) {
+            lastKeyPressed = nativeKeyEvent.getKeyCode();
+        } else {
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {
+                Media.previous();
+                return;
+            }
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPauseKey()) {
+                Media.pause();
+                return;
+            }
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getSkipKey()) {
+                Media.skip();
+                return;
+            }
         }
     }
 
@@ -51,7 +53,7 @@ public class HotKeyListener implements NativeKeyListener {
 
     }
 
-    public static int getLastKeyCodePressed() {
-        return lastKeyCodePressed;
+    public static int getLastKeyPressed() {
+        return lastKeyPressed;
     }
 }
