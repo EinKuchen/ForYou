@@ -1,7 +1,9 @@
 package de.arekusu.foryou.ui;
 
 
+import de.arekusu.foryou.managers.HotKey;
 import de.arekusu.foryou.managers.Resources;
+import org.jnativehook.keyboard.NativeKeyEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +25,9 @@ public class UI {
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
 
-            JLabel label = new JLabel("Previous Track: F6 || Pause Track: F7 || Next Track: F8");
+            JLabel label = new JLabel("Previous Track: " + NativeKeyEvent.getKeyText(HotKey.INSTANCE.getPreviousKey()) +
+                    " || Pause Track: "  + NativeKeyEvent.getKeyText(HotKey.INSTANCE.getPauseKey()) +
+                    " || Next Track: " + NativeKeyEvent.getKeyText(HotKey.INSTANCE.getSkipKey()));
             label.setForeground(Color.CYAN);
             frame.add(label, gridBagConstraints);
         }catch (Exception exception) {exception.printStackTrace();}

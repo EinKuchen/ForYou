@@ -14,17 +14,16 @@ public class SetHotKey implements CommandExecutor {
 
     @Override
     public void onExecute(String[] args) {
-        //TODO: Set hotkeys
         if(args.length == 1) {
             switch (args[0]) {
                 case "prev":
-                    record(HotKeys.PREV);
+                    changeHotKey(HotKeys.PREV);
                     break;
                 case "pause":
-                    record(HotKeys.PAUSE);
+                    changeHotKey(HotKeys.PAUSE);
                     break;
                 case "next":
-                    record(HotKeys.SKIP);
+                    changeHotKey(HotKeys.SKIP);
                     break;
                 default:
                     System.out.println(">> Wrong command syntax! Please use <setHotKey [prev | pause | next]>");
@@ -34,10 +33,10 @@ public class SetHotKey implements CommandExecutor {
             System.out.println(">> Wrong command syntax! Please use <setHotKey [prev | pause | next]>");
     }
 
-    public synchronized void record(HotKeys hotKey) {
+    public synchronized void changeHotKey(HotKeys hotKey) {
         int old = HotKeyListener.getLastKeyPressed();
+        int newKey;
 
-        System.out.println(" ");
         System.out.println(">> Press new HotKey for the " + hotKey.name() + " Key!");
         while (old == HotKeyListener.getLastKeyPressed()) {
             try {
@@ -47,7 +46,7 @@ public class SetHotKey implements CommandExecutor {
             }
         }
 
-        int newKey = HotKeyListener.getLastKeyPressed();
+        newKey = HotKeyListener.getLastKeyPressed();
 
         switch (hotKey) {
             case PREV:
@@ -62,6 +61,5 @@ public class SetHotKey implements CommandExecutor {
         }
 
         System.out.println(">> Changed " + hotKey.name() + " to " + NativeKeyEvent.getKeyText(newKey));
-        System.out.println(" ");
     }
 }
