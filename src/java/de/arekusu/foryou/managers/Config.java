@@ -67,6 +67,7 @@ public class Config {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }else
+            generate();
     }
 }
