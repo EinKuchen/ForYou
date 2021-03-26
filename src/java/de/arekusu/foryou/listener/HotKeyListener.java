@@ -1,5 +1,7 @@
 package de.arekusu.foryou.listener;
 
+import de.arekusu.foryou.console.Console;
+import de.arekusu.foryou.console.commands.SetHotKey;
 import de.arekusu.foryou.managers.HotKey;
 import de.arekusu.foryou.managers.Media;
 import org.jnativehook.GlobalScreen;
@@ -11,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HotKeyListener implements NativeKeyListener {
+    private static int lastKeyPressed;
+
 
     public static void initialize() {
         try {
@@ -27,22 +31,30 @@ public class HotKeyListener implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {
-            Media.previous();
-            return;
-        }
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPauseKey()) {
-            Media.pause();
-            return;
-        }
-        if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getSkipKey()) {
-            Media.skip();
-            return;
+        if(Console.isConsoleMode() && SetHotKey.isAwaitKeyInput()) {
+            lastKeyPressed = nativeKeyEvent.getKeyCode();
+        } else {
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {
+                Media.previous();
+                return;
+            }
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPauseKey()) {
+                Media.pause();
+                return;
+            }
+            if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getSkipKey()) {
+                Media.skip();
+                return;
+            }
         }
     }
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
 
+    }
+
+    public static int getLastKeyPressed() {
+        return lastKeyPressed;
     }
 }

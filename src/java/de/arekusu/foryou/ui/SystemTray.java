@@ -3,13 +3,14 @@ package de.arekusu.foryou.ui;
 import de.arekusu.foryou.managers.Resources;
 
 import java.awt.*;
+import java.awt.event.*;
 
 public class SystemTray {
     public static final SystemTray INSTANCE = new SystemTray();
 
-    private java.awt.SystemTray tray;
-    private TrayIcon trayIcon = new TrayIcon(Resources.INSTANCE.getDefaultIcon(), "ForYou", null);
-    private PopupMenu menu = new PopupMenu();
+    private final java.awt.SystemTray tray;
+    private final TrayIcon trayIcon = new TrayIcon(Resources.getDefaultIcon(), "ForYou", null);
+    private final PopupMenu menu = new PopupMenu();
 
     public SystemTray() {
         trayIcon.setImageAutoSize(true);
@@ -28,6 +29,16 @@ public class SystemTray {
             menu.addSeparator();
             menu.add(close);
 
+            trayIcon.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getButton() != 1) return;
+                    if(UI.INSTANCE.isHidden()) {
+                        UI.INSTANCE.showUI();
+                    }else
+                        UI.INSTANCE.hideUI();
+                }
+            });
             trayIcon.setPopupMenu(menu);
             tray.add(trayIcon);
         }catch (Exception exception) {exception.printStackTrace();}
