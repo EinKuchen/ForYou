@@ -1,6 +1,7 @@
 package de.arekusu.foryou.listener;
 
 import de.arekusu.foryou.console.Console;
+import de.arekusu.foryou.console.commands.SetHotKey;
 import de.arekusu.foryou.managers.HotKey;
 import de.arekusu.foryou.managers.Media;
 import org.jnativehook.GlobalScreen;
@@ -30,7 +31,7 @@ public class HotKeyListener implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-        if(Console.isConsoleMode()) {
+        if(Console.isConsoleMode() && SetHotKey.isAwaitKeyInput()) {
             lastKeyPressed = nativeKeyEvent.getKeyCode();
         } else {
             if(nativeKeyEvent.getKeyCode() == HotKey.INSTANCE.getPreviousKey()) {

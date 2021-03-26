@@ -11,6 +11,7 @@ public class SetHotKey implements CommandExecutor {
         PAUSE,
         SKIP
     }
+    private static boolean awaitKeyInput;
 
     @Override
     public void onExecute(String[] args) {
@@ -38,6 +39,7 @@ public class SetHotKey implements CommandExecutor {
         int newKey;
 
         System.out.println(">> Press new HotKey for the " + hotKey.name() + " Key!");
+        awaitKeyInput = true;
         while (old == HotKeyListener.getLastKeyPressed()) {
             try {
                 wait(500);
@@ -46,6 +48,7 @@ public class SetHotKey implements CommandExecutor {
             }
         }
 
+        awaitKeyInput = false;
         newKey = HotKeyListener.getLastKeyPressed();
 
         switch (hotKey) {
@@ -61,5 +64,9 @@ public class SetHotKey implements CommandExecutor {
         }
 
         System.out.println(">> Changed " + hotKey.name() + " to " + NativeKeyEvent.getKeyText(newKey));
+    }
+
+    public static boolean isAwaitKeyInput() {
+        return awaitKeyInput;
     }
 }
