@@ -35,7 +35,7 @@ public class Config {
 
     public static void save() {
         try {
-            if(!new File(documentPath + "\\ForYou\\").exists()) generate();
+            if(!new File(documentPath + "\\ForYou\\").exists()) return;
 
             FileWriter writer = new FileWriter(documentPath + "\\ForYou\\settings.json");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
